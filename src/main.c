@@ -4,7 +4,7 @@
  * -----
  * File: main.c
  * Created Date: 25/09/2021 18:44:37
- * Last Modified: 26/09/2021 14:50:54
+ * Last Modified: 26/09/2021 14:51:33
  * -----
  * Copyright (c) 2021
  */
@@ -93,7 +93,52 @@ void sha1() {
   printf("\nError %d. Should be %d.\n", err, Null);
 }
 
+void md4() {
+  MD4Context md;
+  int i, j, err;
+  uint8_t Message_Digest[MD4HashSize];
+
+  /*
+   *  Perform MD4 tests
+   */
+  for (j = 0; j < 4; ++j) {
+    printf("\nTest %d: %ld, '%s'\n", j + 1, MD4repeatcount[j], MD4testarray[j]);
+
+    err = MD4Reset(&md);
+    if (err) {
+      fprintf(stderr, "MD4Reset Error %d.\n", err);
+      break; /* out of for j loop */
+    }
+
+    for (i = 0; i < MD4repeatcount[j]; ++i) {
+      err = MD4Update(&md, (const unsigned char *)MD4testarray[j],
+                      strlen(MD4testarray[j]));
+      if (err) {
+        fprintf(stderr, "MD4Update Error %d.\n", err);
+        break; /* out of for i loop */
+      }
+    }
+
+    err = MD4Result(&md, Message_Digest);
+    if (err) {
+      fprintf(stderr, "MD4Result Error %d, could not compute message digest.\n",
+              err);
+    } else {
+      printf("\t");
+      for (i = 0; i < MD4HashSize; ++i) {
+        printf("%02X ", Message_Digest[i]);
+      }
+      printf("\n");
+    }
+    printf("Should match:\n");
+    printf("\t%s\n", MD4resultarray[j]);
+  }
+}
+
 int main() {
+  printf("MD4 Test Vectors");
+  md4();
+
   printf("SHA1 Test Vectors");
   sha1();
   return 0;

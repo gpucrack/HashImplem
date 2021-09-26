@@ -1,5 +1,4 @@
-SHELL := /bin/sh
-
+# https://makefiletutorial.com/#makefile-cookbook
 TARGET_EXEC := main
 
 BUILD_DIR := ./build
