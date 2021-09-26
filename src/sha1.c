@@ -4,7 +4,7 @@
  * -----
  * File: sha1.c
  * Created Date: 23/09/2021 16:28:52
- * Last Modified: 26/09/2021 12:06:26
+ * Last Modified: 26/09/2021 15:44:52
  * -----
  * Copyright (c) 2021
  */
@@ -67,7 +67,6 @@ int SHA1Reset(SHA1Context *context) {
   if (!context) {
     return Null;
   }
-
   context->Length_Low = 0;
   context->Length_High = 0;
   context->Message_Block_Index = 0;
