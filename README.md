@@ -9,7 +9,7 @@ Some hash implementations in pure C.
 - [x] Hash: MD4
 - [x] Feature: Rainbow Table - Precompute Phase
 - [ ] Feature: Rainbow Table - Attack Phase
-- [ ] Hash: NTLM
+- [x] Hash: NTLM
 
 ## Build
 

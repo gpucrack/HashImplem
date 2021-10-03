@@ -4,22 +4,13 @@
  * -----
  * File: global.h
  * Created Date: 26/09/2021 11:53:59
- * Last Modified: 26/09/2021 12:05:40
+ * Last Modified: 03/10/2021 15:15:23
  * -----
  * Copyright (c) 2021
  */
 
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
-
-/*
- * If you do not have the ISO standard stdint.h header file, then you
- * must typdef the following:
- *  name             meaning
- *  uint32_t         unsigned 32 bit integer
- *  uint8_t          unsigned 8 bit integer (i.e., unsigned char)
- *  int_least16_t    integer of >= 16 bits
- */
 
 typedef unsigned char uint8_t;
 typedef unsigned short int uint16_t;

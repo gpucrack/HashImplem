@@ -4,12 +4,13 @@
  * -----
  * File: main.c
  * Created Date: 25/09/2021 18:44:37
- * Last Modified: 26/09/2021 16:50:16
+ * Last Modified: 03/10/2021 15:13:45
  * -----
  * Copyright (c) 2021
  */
 
 #include "md4.h"
+#include "nthash.h"
 #include "rainbow.h"
 #include "sha1.h"
 #include <stdio.h>
@@ -33,6 +34,12 @@ char *MD4_resultarray[4] = {"31 D6 CF E0 D1 6A E9 31 B7 3C 59 D7 E0 C0 89 C0",
                             "BD E5 2C B3 1D E3 3E 46 24 5E 05 FB DB D6 FB 24",
                             "A4 48 01 7A AF 21 D8 52 5F C1 0A E8 7A A6 72 9D",
                             "E3 3B 4D DC 9C 38 F2 19 9C 3E 7B 16 4F CC 05 36"};
+
+char *NT_testarray[4] = {"", "a", "abc", "OLDPASSWORD"};
+char *NT_resultarray[4] = {"31 D6 CF E0 D1 6A E9 31 B7 3C 59 D7 E0 C0 89 C0",
+                           "18 6C B0 91 81 E2 C2 EC AA C7 68 C4 7C 72 99 04",
+                           "E0 FB A3 82 68 D0 EC 66 EF 1C B4 52 D5 88 5E 53",
+                           "66 77 B2 C3 94 31 13 55 B5 4F 25 EE C5 BF AC F5"};
 
 uint8_t *HASH(char *algorithm, void *context, char *input, uint32_t input_len,
               uint32_t output_len, int (*reset_ptr)(void *),
@@ -103,6 +110,10 @@ static void HASHString(char *string) {
   /* MD4 */
   MD4Context md;
   HASH("MD4", &md, string, len, MD4HashSize, &MD4Reset, &MD4Update, &MD4Result);
+
+  /* NTHash */
+  NTContext nt;
+  HASH("NT", &nt, string, len, NTHashSize, &NTReset, &NTUpdate, &NTResult);
 }
 
 static void HASHTestSuite() {
@@ -130,6 +141,18 @@ static void HASHTestSuite() {
 
     printf("Should match:\n");
     printf("\t%s\n", MD4_resultarray[j]);
+  }
+
+  printf("\n:: NTHash Test Vectors ::\n\n");
+
+  /* NT */
+  NTContext nt;
+  for (j = 0; j < 4; ++j) {
+    HASH("NT", &nt, NT_testarray[j], strlen(NT_testarray[j]), NTHashSize,
+         &NTReset, &NTUpdate, &NTResult);
+
+    printf("Should match:\n");
+    printf("\t%s\n", NT_resultarray[j]);
   }
 }
 
