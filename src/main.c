@@ -4,11 +4,12 @@
  * -----
  * File: main.c
  * Created Date: 25/09/2021 18:44:37
- * Last Modified: 03/10/2021 15:13:45
+ * Last Modified: 03/10/2021 16:31:32
  * -----
  * Copyright (c) 2021
  */
 
+#include "global.h"
 #include "md4.h"
 #include "nthash.h"
 #include "rainbow.h"
@@ -76,22 +77,17 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
-/*
- * Call hash on every algorithm.
- */
 uint8_t *HASH(char *algorithm, void *context, char *input, uint32_t input_len,
               uint32_t output_len, int (*reset_ptr)(void *),
               int (*update_ptr)(void *, const uint8_t *, uint32_t),
               int (*result_ptr)(void *, uint8_t *output)) {
-
   uint8_t digest[output_len];
 
-  (*reset_ptr)(context);
-  (*update_ptr)(context, input, input_len);
-  (*result_ptr)(context, digest);
+  hash(context, input, input_len, digest, output_len, (*reset_ptr),
+       (*update_ptr), (*result_ptr));
 
-  printf("%s (\"%s\") = ", algorithm, input);
-  HASHPrint(digest, output_len);
+  printf("%s (\"%s\") =\n\t", algorithm, input);
+  print_hash(digest, output_len);
 
   return digest;
 }
@@ -167,41 +163,36 @@ static void HASHRainbowTable() {
   precompute(rainbow_tables1, &sha, SHA1HashSize, &SHA1Reset, &SHA1Update,
              &SHA1Result);
 
-  for (i = 0; i < TABLE_COUNT; i++) {
-    print_table(rainbow_tables1[i]);
-    printf("\n");
+  // for (i = 0; i < TABLE_COUNT; i++) {
+  //   print_table(rainbow_tables1[i]);
+  //   printf("\n");
+  // }
+  print_table(rainbow_tables1[0]);
+
+  char *password = "pls";
+  uint8_t digest[SHA1HashSize];
+  hash(&sha, password, strlen(password), digest, SHA1HashSize, &SHA1Reset,
+       &SHA1Update, &SHA1Result);
+
+  printf("Looking for password '%s', hashed as ", password);
+  print_hash(digest, SHA1HashSize);
+  printf(".\n\n");
+
+  char found[MAX_PASSWORD_LENGTH + 1];
+
+  printf("Starting attack...\n");
+  attack(rainbow_tables1, digest, found, SHA1HashSize, &sha, &SHA1Reset,
+         &SHA1Update, &SHA1Result);
+
+  if (!strcmp(found, "")) {
+    printf("No password found for the given hash.\n");
+  } else {
+    printf("Password '%s' found for the given hash!\n", found);
   }
+
+  // Clear
 
   for (i = 0; i < TABLE_COUNT; i++) {
     delete_table(rainbow_tables1[i]);
   }
-
-  printf("\n:: MD4 Rainbow Table Test ::\n\n");
-
-  MD4Context md;
-  Table rainbow_tables2[TABLE_COUNT];
-
-  precompute(rainbow_tables2, &md, MD4HashSize, &MD4Reset, &MD4Update,
-             &MD4Result);
-
-  for (i = 0; i < TABLE_COUNT; i++) {
-    print_table(rainbow_tables2[i]);
-    printf("\n");
-  }
-
-  for (i = 0; i < TABLE_COUNT; i++) {
-    delete_table(rainbow_tables2[i]);
-  }
-}
-
-/*
- * Prints a message digest in hexadecimal.
- */
-static void HASHPrint(uint8_t *digest, uint32_t len) {
-  uint32_t i;
-  printf("\n\t");
-  for (i = 0; i < len; i++) {
-    printf("%02X ", digest[i]);
-  }
-  printf("\n");
 }

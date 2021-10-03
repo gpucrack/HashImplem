@@ -4,7 +4,7 @@
  * -----
  * File: rainbow.h
  * Created Date: 26/09/2021 16:16:53
- * Last Modified: 26/09/2021 16:46:15
+ * Last Modified: 03/10/2021 16:32:35
  * -----
  * Copyright (c) 2021
  */
@@ -42,7 +42,10 @@ void precompute(Table *rainbow_tables, void *context, uint32_t output_len,
                 int (*reset_ptr)(void *),
                 int (*update_ptr)(void *, const uint8_t *, uint32_t),
                 int (*result_ptr)(void *, uint8_t *output));
-void attack(Table *rainbow_tables, uint8_t *digest, char *password);
+void attack(Table *rainbow_tables, uint8_t *digest, uint8_t *password,
+            uint32_t hash_size, void *context, int (*reset_ptr)(void *),
+            int (*update_ptr)(void *, const uint8_t *, uint32_t),
+            int (*result_ptr)(void *, uint8_t *output));
 
 void delete_table(Table rainbow_table);
 void print_table(Table table);

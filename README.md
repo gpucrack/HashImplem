@@ -8,8 +8,9 @@ Some hash implementations in pure C.
 - [x] Hash: SHA1
 - [x] Hash: MD4
 - [x] Feature: Rainbow Table - Precompute Phase
-- [ ] Feature: Rainbow Table - Attack Phase
+- [x] Feature: Rainbow Table - Attack Phase
 - [x] Hash: NTLM
+- [ ] Benchmarks
 
 ## Build
 
