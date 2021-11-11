@@ -4,7 +4,7 @@
  * -----
  * File: global.h
  * Created Date: 26/09/2021 11:53:59
- * Last Modified: 03/10/2021 16:17:13
+ * Last Modified: 08/11/2021 10:05:50
  * -----
  * Copyright (c) 2021
  */
@@ -18,7 +18,7 @@ typedef unsigned char bool;
 typedef unsigned char uint8_t;
 typedef unsigned short int uint16_t;
 typedef unsigned int uint32_t;
-typedef unsigned long long int uint64_t;
+// typedef unsigned long long int uint64_t;
 typedef short int int_16t;
 
 /* POINTER defines a generic pointer type */

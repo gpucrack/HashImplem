@@ -4,11 +4,12 @@
  * -----
  * File: main.c
  * Created Date: 25/09/2021 18:44:37
- * Last Modified: 03/10/2021 16:31:32
+ * Last Modified: 11/11/2021 13:49:11
  * -----
  * Copyright (c) 2021
  */
 
+#include "benchmark.h"
 #include "global.h"
 #include "md4.h"
 #include "nthash.h"
@@ -49,7 +50,9 @@ uint8_t *HASH(char *algorithm, void *context, char *input, uint32_t input_len,
 static void HASHPrint(uint8_t *digest, uint32_t len);
 static void HASHString(char *string);
 static void HASHTestSuite();
+static void HASHBenchmark();
 static void HASHRainbowTable();
+static void Help();
 
 /*
     Arguments:
@@ -67,14 +70,36 @@ int main(int argc, char const *argv[]) {
         HASHString(argv[i] + 2);
       else if (strcmp(argv[i], "-x") == 0)
         HASHTestSuite();
+      else if (strcmp(argv[i], "-b") == 0)
+        HASHBenchmark();
       else if (strcmp(argv[i], "-r") == 0)
         HASHRainbowTable();
+      else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
+        Help();
       else
         HASHRainbowTable();
   else
     HASHRainbowTable();
 
   return 0;
+}
+
+void Help() {
+  char *name = "./main.out";
+  printf("Usage: %s [OPTION]\n", name);
+  printf("\n");
+  printf("  -sstring - digests string\n");
+  printf("  -x       - runs test suite\n");
+  printf("  -b       - runs benchmark\n");
+  printf("  -r       - runs rainbow table script\n");
+  printf("  -h       - prints this help\n");
+  printf("\n");
+  printf("Examples:\n");
+  printf("  %s -sabc\n", name);
+  printf("  %s -x\n", name);
+  printf("  %s -b\n", name);
+  printf("  %s -r\n", name);
+  printf("  %s -h\n", name);
 }
 
 uint8_t *HASH(char *algorithm, void *context, char *input, uint32_t input_len,
@@ -151,6 +176,8 @@ static void HASHTestSuite() {
     printf("\t%s\n", NT_resultarray[j]);
   }
 }
+
+static void HASHBenchmark() { benchmark(1000000); }
 
 static void HASHRainbowTable() {
   int i;

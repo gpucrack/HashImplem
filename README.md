@@ -12,6 +12,27 @@ Some hash implementations in pure C.
 - [x] Hash: NTLM
 - [ ] Benchmarks
 
+## Docker
+
+Just run:
+
+```sh
+$ docker compose run --rm app
+```
+
+Then in docker:
+
+```sh
+/app# make
+/app# ./build/main.out -h
+```
+
+To exit container:
+
+```sh
+/app# exit
+```
+
 ## Build
 
 Just run:

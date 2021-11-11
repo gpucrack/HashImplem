@@ -4,17 +4,17 @@
  * -----
  * File: rainbow.c
  * Created Date: 26/09/2021 11:33:43
- * Last Modified: 03/10/2021 16:19:20
+ * Last Modified: 03/10/2021 17:10:21
  * -----
  * Copyright (c) 2021
  */
 
 // Adapted from https://github.com/gpucrack/NaiveRainbow
 
-#include "rainbow.h";
-#include <stdio.h>;
-#include <stdlib.h>;
-#include <string.h>;
+#include "rainbow.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char char_in_range(uint8_t n);
 void reduce(uint8_t digest[], uint32_t digest_len, uint32_t iteration,
